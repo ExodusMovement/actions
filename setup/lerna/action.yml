@@ -1,0 +1,29 @@
+name: 'Setup lerna'
+description: |
+  Composite action to setup node, yarn berry & nx caching, and private registry access in lerna monorepos.
+  The nx cache directory is by default assumed under .cache/nx.
+inputs:
+  nx-cache-path:
+    description: Path to the nx cache directory
+    default: .cache/nx
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      # this action has an option to restore cached dependencies,
+      # but it only restores the cache when the lockfile is identical (so a no-no for our purposes)
+      with:
+        node-version-file: .nvmrc
+    - uses: ExodusMovement/actions/setup/yarn-berry@v1
+    - name: Restore nx cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ inputs.nx-cache-path }}
+        key: nx-operations-cache-${{github.job}}-${{github.sha}}
+        restore-keys: |
+          nx-operations-cache-${{github.job}}-
+
+author: 'ExodusMovement'
+branding:
+  icon: 'activity'
+  color: 'gray-dark'
