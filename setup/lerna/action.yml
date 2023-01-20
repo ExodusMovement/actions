@@ -6,6 +6,9 @@ inputs:
   nx-cache-path:
     description: Path to the nx cache directory
     default: .cache/nx
+  npm-token:
+    required: true
+    description: The npm token used to grant registry access. Pass a token with publish permissions if needed.
 runs:
   using: 'composite'
   steps:
@@ -15,6 +18,8 @@ runs:
       with:
         node-version-file: .nvmrc
     - uses: ExodusMovement/actions/setup/yarn-berry@v1
+      with:
+        npm-token: ${{ inputs.npm-token }}
     - name: Restore nx cache
       uses: actions/cache@v3
       with:

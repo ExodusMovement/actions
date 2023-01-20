@@ -1,5 +1,9 @@
 name: 'Setup yarn'
 description: 'Composite action to setup node, yarn caching, and private registry access in yarn classic repositories'
+inputs:
+  npm-token:
+    required: true
+    description: The npm token used to grant registry access. Pass a token with publish permissions if needed.
 runs:
   using: 'composite'
   steps:
@@ -10,7 +14,7 @@ runs:
         node-version-file: .nvmrc
     - name: Grant access to private registry
       shell: bash
-      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      run: echo "//registry.npmjs.org/:_authToken="${{ inputs.npm-token }}" > .npmrc
     - name: Restore node_modules
       uses: actions/cache@v3
       with:
