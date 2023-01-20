@@ -1,0 +1,24 @@
+name: 'Setup yarn berry'
+description: 'Composite action to setup node, yarn caching, and private registry access in yarn berry repositories'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      # this action has an option to restore cached dependencies,
+      # but it only restores the cache when the lockfile is identical (so a no-no for our purposes)
+      with:
+        node-version-file: .nvmrc
+    - name: Grant access to private registry
+      shell: bash
+      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+    - name: Restore yarn cache
+      uses: actions/cache@v3
+      with:
+        path: .yarn/cache
+        key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+author: 'ExodusMovement'
+branding:
+  icon: 'activity'
+  color: 'gray-dark'
