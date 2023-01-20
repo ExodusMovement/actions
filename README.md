@@ -34,9 +34,12 @@ jobs:
 ### Yarn berry
 
 This setup action is to be used in yarn berry repositories (version >= 2).
-It differs from the yarn classic setup action only in one regard: It restores `.yarn/cache` instead of `node_modules`.
+It differs from the yarn classic setup action in two regards
 
-Only the following minor detail has to be changed compared with the above snippet:
+- it restores `.yarn/cache` instead of `node_modules`
+- it grants access to the private registry through `yarn config set` because `.npmrc` files are disregarded by yarn berry
+
+To use it, only the following detail has to be changed compared with the above snippet:
 
 ```diff
 - - uses: ExodusMovement/actions/setup/yarn@v1
