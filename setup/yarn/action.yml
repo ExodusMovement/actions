@@ -14,7 +14,7 @@ runs:
         node-version-file: .nvmrc
     - name: Grant access to private registry
       shell: bash
-      run: echo "//registry.npmjs.org/:_authToken="${{ inputs.npm-token }}" > .npmrc
+      run: echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
     - name: Restore node_modules
       uses: actions/cache@v3
       with:
