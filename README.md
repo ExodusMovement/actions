@@ -30,3 +30,15 @@ jobs:
       - run: yarn lint
       - run: yarn test
 ```
+
+### Yarn berry
+
+This setup action is to be used in yarn berry repositories (version >= 2).
+It differs from the yarn classic setup action only in one regard: It restores `.yarn/cache` instead of `node_modules`.
+
+Only the following minor detail has to be changed compared with the above snippet:
+
+```diff
+- - uses: ExodusMovement/actions/setup/yarn@v1
++ - uses: ExodusMovement/actions/setup/yarn-berry@v1
+```
