@@ -45,3 +45,13 @@ To use it, only the following detail has to be changed compared with the above s
 - - uses: ExodusMovement/actions/setup/yarn@v1
 + - uses: ExodusMovement/actions/setup/yarn-berry@v1
 ```
+
+### Lerna
+
+This setup action layers on top of the yarn berry action and adds cache retrieval of the nx cache in a lerna monorepo.
+
+Use it as:
+
+```yaml
+- uses: ExodusMovement/actions/setup/lerna@v1
+```
