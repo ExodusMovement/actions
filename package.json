@@ -1,0 +1,13 @@
+{
+  "name": "@exodus/actions",
+  "private": true,
+  "scripts": {
+    "format": "prettier \"**/*.{js,json,md,ts,yml}\" --ignore-path .eslintignore --write",
+    "format:check": "prettier --check \"**/*.{js,json,md,ts,yml}\" --ignore-path .eslintignore --loglevel warn"
+  },
+  "devDependencies": {
+    "@exodus/prettier": "^0.1.5",
+    "prettier": "^2.8.0"
+  },
+  "prettier": "@exodus/prettier"
+}
