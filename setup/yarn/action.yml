@@ -21,7 +21,7 @@ runs:
         path: |
           node_modules
           src/node_modules
-        key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         # if we don't have a direct cache hit, this restore key will be partially matched against available caches,
         # hence restoring the latest previous cache
         restore-keys: ${{ runner.os }}-yarn-
