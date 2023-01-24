@@ -15,7 +15,9 @@ runs:
         node-version-file: .nvmrc
     - name: Allow read access to private registry
       shell: bash
-      run: yarn config set --home 'npmRegistries["//registry.npmjs.org/"].npmAuthToken' "${{ inputs.npm-token }}"
+      run: |
+        yarn config set --home 'npmRegistries["//registry.npmjs.org/"].npmAuthToken' "${{ inputs.npm-token }}"
+        echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
     - name: Restore yarn cache
       uses: actions/cache@v3
       with:
