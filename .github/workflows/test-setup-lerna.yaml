@@ -7,8 +7,8 @@ on:
       - 'setup/lerna/**'
   pull_request:
     types: [opened, synchronize]
-    paths:
-      - 'setup/lerna/**'
+#    paths:
+#      - 'setup/lerna/**'
 
 jobs:
   integration-test:
@@ -26,7 +26,7 @@ jobs:
           path: actions
       - uses: ./actions/setup/lerna
         with:
-          npm-token: ${{ NPM_PUBLISH_TOKEN }}
+          npm-token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       - uses: ExodusMovement/lerna-release-action/publish@v1
         with:
           github-token: ${{ secrets.GH_AUTOMATION_PAT }}
