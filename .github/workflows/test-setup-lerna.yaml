@@ -1,10 +1,11 @@
 name: Test setup/lerna
 on:
   push:
-    branches:
-      - master
+    branches: [master]
+    paths: [setup/lerna/**]
   pull_request:
     types: [opened, synchronize]
+    paths: [setup/lerna/**]
 
 jobs:
   integration-test:
