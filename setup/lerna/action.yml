@@ -17,7 +17,7 @@ runs:
       # but it only restores the cache when the lockfile is identical (so a no-no for our purposes)
       with:
         node-version-file: .nvmrc
-    - uses: ExodusMovement/actions/setup/yarn-berry@sparten11740/test/verify-lerna-integration-test-works
+    - uses: ExodusMovement/actions/setup/yarn-berry@v3
       with:
         npm-token: ${{ inputs.npm-token }}
     - name: Restore nx cache
