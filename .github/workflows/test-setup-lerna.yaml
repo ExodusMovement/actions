@@ -1,11 +1,14 @@
 name: Test setup/lerna
 on:
   push:
-    branches: [master]
-    paths: [setup/lerna/**]
+    branches:
+      - master
+    paths:
+      - setup/lerna/**
   pull_request:
     types: [opened, synchronize]
-    paths: [setup/lerna/**]
+    paths:
+      - setup/lerna/**
 
 jobs:
   integration-test:
@@ -24,6 +27,6 @@ jobs:
       - uses: ./actions/setup/lerna
         with:
           npm-token: ${{ NPM_PUBLISH_TOKEN }}
-      - uses: ExodusMovement/lerna-release-action/publish@master
+      - uses: ExodusMovement/lerna-release-action/publish@v1
         with:
           github-token: ${{ secrets.GH_AUTOMATION_PAT }}
