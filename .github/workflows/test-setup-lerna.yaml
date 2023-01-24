@@ -4,11 +4,11 @@ on:
     branches:
       - master
     paths:
-      - setup/lerna/**
+      - 'setup/lerna/**'
   pull_request:
     types: [opened, synchronize]
     paths:
-      - setup/lerna/**
+      - 'setup/lerna/**'
 
 jobs:
   integration-test:
