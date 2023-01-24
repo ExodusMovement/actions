@@ -18,7 +18,7 @@ jobs:
           repository: ExodusMovement/lerna-test
           ref: master
           token: ${{ secrets.GH_AUTOMATION_PAT }}
-      - name: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           path: actions
       - uses: ./actions/setup/lerna
