@@ -1,0 +1,35 @@
+name: Test setup/lerna
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'setup/lerna/**'
+      - 'setup/yarn-berry/**'
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'setup/lerna/**'
+      - 'setup/yarn-berry/**'
+
+jobs:
+  integration-test:
+    name: Integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout test repository
+        uses: actions/checkout@v3
+        with:
+          repository: ExodusMovement/lerna-test
+          ref: master
+          token: ${{ secrets.GH_AUTOMATION_PAT }}
+      - uses: actions/checkout@v3
+        with:
+          path: actions
+      - uses: ./actions/setup/lerna
+        with:
+          npm-token: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - name: Install dependencies
+        run: yarn
+      - name: Publish
+        run: npx lerna publish from-package --yes
