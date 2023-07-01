@@ -22,9 +22,8 @@ runs:
           node_modules
           src/node_modules
         key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock', 'src/yarn.lock') }}
-        # if we don't have a direct cache hit, this restore key will be partially matched against available caches,
-        # hence restoring the latest previous cache
-        restore-keys: ${{ runner.os }}-yarn-
+        # we faced issues with restoring on partial matches because yarn classic doesn't cleanup properly on install, don't uncomment
+        # restore-keys: ${{ runner.os }}-yarn-
 author: 'ExodusMovement'
 branding:
   icon: 'activity'
