@@ -15,18 +15,14 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/setup-node@v3
-      # this action has an option to restore cached dependencies,
-      # but it only restores the cache when the lockfile is identical (so a no-no for our purposes)
-      with:
-        node-version-file: .nvmrc
-    - uses: ExodusMovement/actions/setup/yarn-berry@v3
+    - uses: ExodusMovement/actions/setup/yarn-berry@master
       with:
         npm-token: ${{ inputs.npm-token }}
     - name: Restore nx cache
       if: inputs.disable-nx-cache == 'no'
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
+        save-always: true
         path: ${{ inputs.nx-cache-path }}
         key: nx-operations-cache-${{github.job}}-${{github.sha}}
         restore-keys: |
