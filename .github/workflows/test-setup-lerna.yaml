@@ -1,4 +1,5 @@
 name: Test setup/lerna
+
 on:
   push:
     branches:
@@ -11,6 +12,9 @@ on:
     paths:
       - 'setup/lerna/**'
       - 'setup/yarn-berry/**'
+
+permissions:
+  contents: read
 
 jobs:
   integration-test:
