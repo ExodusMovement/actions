@@ -1,4 +1,5 @@
 name: Test setup/lerna
+
 on:
   push:
     branches:
@@ -11,6 +12,9 @@ on:
     paths:
       - 'setup/lerna/**'
       - 'setup/yarn-berry/**'
+
+permissions:
+  contents: read
 
 jobs:
   integration-test:
@@ -30,6 +34,6 @@ jobs:
         with:
           npm-token: ${{ secrets.NPM_PUBLISH_TOKEN }}
       - name: Install dependencies
-        run: yarn
+        run: yarn install --immutable
       - name: Publish
         run: npx lerna publish from-package --yes
