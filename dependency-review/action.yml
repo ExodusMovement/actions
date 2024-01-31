@@ -9,4 +9,4 @@ runs:
     - name: 'Dependency Review'
       uses: actions/dependency-review-action@cc4f6536e38d1126c5e3b0683d469a14f23bfea4 # v3
       with:
-        allow-licenses: MIT,Apache-2.0,ISC,BSD-2-Clause,BSD-3-Clause,Unlicense,CC0-1.0,CC-BY-3.0,WTFPL,0BSD,AFL-2.1
+        allow-licenses: MIT,Apache-2.0,MPL-2.0,ISC,BSD-2-Clause,BSD-3-Clause,Unlicense,CC0-1.0,CC-BY-3.0,WTFPL,0BSD,AFL-2.1
