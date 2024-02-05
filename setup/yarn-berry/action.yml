@@ -8,20 +8,25 @@ runs:
   using: 'composite'
 
   steps:
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       # this action has an option to restore cached dependencies,
       # but it only restores the cache when the lockfile is identical (so a no-no for our purposes)
       with:
         node-version-file: .nvmrc
+        registry-url: 'https://registry.npmjs.org'
     - name: Allow read access to private registry
       shell: bash
       run: |
-        yarn config set --home 'npmRegistries["//registry.npmjs.org/"].npmAuthToken' "${{ inputs.npm-token }}"
+        yarn config set --home npmScopes.exodus.npmAuthToken ${{ inputs.npm-token }}
         echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
     - name: Restore yarn cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
-        path: .yarn/cache
+        save-always: true
+        path: |
+          .yarn/cache
+          .yarn/install-state.gz
+          **/node_modules
         key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-

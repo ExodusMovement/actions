@@ -24,8 +24,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ExodusMovement/actions/setup/yarn@v1
+      - uses: actions/checkout@v4
+      - uses: ExodusMovement/actions/setup/yarn@master
         with:
           npm-token: ${{ secrets.NPM_TOKEN }}
       - run: yarn run deps:install
@@ -44,8 +44,8 @@ It differs from the yarn classic setup action in two regards
 To use it, only the following detail has to be changed compared with the above snippet
 
 ```diff
-- - uses: ExodusMovement/actions/setup/yarn@v1
-+ - uses: ExodusMovement/actions/setup/yarn-berry@v1
+- - uses: ExodusMovement/actions/setup/yarn@master
++ - uses: ExodusMovement/actions/setup/yarn-berry@master
 ```
 
 ### Lerna
@@ -55,7 +55,7 @@ This setup action layers on top of the yarn berry action and adds cache retrieva
 Use it as
 
 ```yaml
-- uses: ExodusMovement/actions/setup/lerna@v1
+- uses: ExodusMovement/actions/setup/lerna@master
   with:
     npm-token: ${{ secrets.NPM_TOKEN }}
 ```
@@ -63,7 +63,7 @@ Use it as
 or if you need publish permissions
 
 ```yaml
-- uses: ExodusMovement/actions/setup/lerna@v1
+- uses: ExodusMovement/actions/setup/lerna@master
   with:
     npm-token: ${{ secrets.NPM_PUBLISH_TOKEN }}
 ```
