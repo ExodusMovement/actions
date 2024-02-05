@@ -2,7 +2,6 @@ name: 'Dependency Review'
 description: 'Check dependencies for vulnerabilities and licenses'
 runs:
   using: 'composite'
-  # timeout-minutes: 10 # TODO: https://github.com/actions/runner/issues/1979
   steps:
     - name: 'Checkout Repository'
       uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # v4.0.0
@@ -11,6 +10,3 @@ runs:
       with:
         fail-on-severity: high
         allow-licenses: MIT,Apache-2.0,MPL-2.0,ISC,BSD-2-Clause,BSD-3-Clause,Unlicense,CC0-1.0,CC-BY-3.0,WTFPL,0BSD,AFL-2.1
-      # TODO: if you need to whitelist some packages
-      # allow-dependencies-licenses:
-      #   - 'pkg:npm/<pkgName>'
