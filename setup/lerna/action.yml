@@ -15,7 +15,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: ExodusMovement/actions/setup/yarn-berry@master
+    - uses: ExodusMovement/actions/setup/yarn-berry@06f077a9081a1e973586dde8870e7116873b9b84
       with:
         npm-token: ${{ inputs.npm-token }}
     - name: Restore nx cache
