@@ -13,11 +13,10 @@ runs:
       # but it only restores the cache when the lockfile is identical (so a no-no for our purposes)
       with:
         node-version-file: .nvmrc
-        registry-url: 'https://registry.npmjs.org'
     - name: Allow read access to private registry
       shell: bash
       run: |
-        yarn config set --home npmScopes.exodus.npmAuthToken ${{ inputs.npm-token }}
+        yarn config set --home 'npmRegistries["//registry.npmjs.org/"].npmAuthToken' "${{ inputs.npm-token }}"
         echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
     - name: Restore yarn cache
       uses: actions/cache@v4
