@@ -1,0 +1,29 @@
+name: 'Checks'
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./setup/yarn-berry
+        with:
+          npm-token: ${{ secrets.NPM_TOKEN }}
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Format
+        run: yarn format:check
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./dependency-review
