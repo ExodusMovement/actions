@@ -5,9 +5,18 @@ runs:
   steps:
     - name: 'Checkout Repository'
       uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # v4.0.0
+      with:
+        fetch-depth: 2
+    - name: Get HEAD~1 sha
+      id: rev-parse
+      shell: bash
+      run: echo "sha=$(git rev-parse HEAD~1)" >> "$GITHUB_OUTPUT"
     - name: 'Dependency Review'
       uses: actions/dependency-review-action@9129d7d40b8c12c1ed0f60400d00c92d437adcce # v4
       with:
         fail-on-severity: high
         comment-summary-in-pr: on-failure
         allow-licenses: MIT,Apache-2.0,MPL-2.0,ISC,BSD-2-Clause,BSD-3-Clause,Unlicense,CC0-1.0,CC-BY-3.0,WTFPL,0BSD,AFL-2.1
+        # these are only used for event types other than pull_request and pull_request_target.
+        base-ref: ${{ steps.rev-parse.outputs.sha }}
+        head-ref: ${{ github.sha }}
