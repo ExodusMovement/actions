@@ -22,3 +22,8 @@ jobs:
         run: yarn install --immutable
       - name: Format
         run: yarn format:check
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./dependency-review
