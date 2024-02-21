@@ -11,21 +11,13 @@ permissions:
   contents: read
 
 jobs:
-  checks:
+  format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./setup/yarn-berry
         with:
-          node-version-file: .nvmrc
-      - name: Restore yarn cache
-        uses: actions/cache@v4
-        with:
-          path: .yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
-      - name: Grant read access to private registry
-        run: yarn config set --home 'npmRegistries["//registry.npmjs.org/"].npmAuthToken' "${{ secrets.NPM_TOKEN }}"
+          npm-token: ${{ secrets.NPM_TOKEN }}
       - name: Install dependencies
         run: yarn install --immutable
       - name: Format
