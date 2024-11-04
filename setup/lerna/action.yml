@@ -9,6 +9,9 @@ inputs:
   disable-nx-cache:
     description: Disables nx-cache when set to 'yes'
     default: no
+  disable-dependency-cache:
+    description: Disables caching of dependencies when set to 'yes'
+    default: no
   npm-token:
     required: true
     description: The npm token used to grant registry access. Pass a token with publish permissions if needed.
@@ -18,6 +21,7 @@ runs:
     - uses: ExodusMovement/actions/setup/yarn-berry@80a106ad159450be7e065a35030bd5732714f6f8
       with:
         npm-token: ${{ inputs.npm-token }}
+        disable-dependency-cache: ${{ inputs.disable-dependency-cache }}
     - name: Restore nx cache
       if: inputs.disable-nx-cache == 'no'
       uses: actions/cache@v4
