@@ -4,6 +4,10 @@ inputs:
   npm-token:
     required: true
     description: The npm token used to grant registry access. Pass a token with publish permissions if needed.
+  disable-dependency-cache:
+    required: false
+    description: Disables caching of dependencies when set to 'yes'
+    default: 'no'
 runs:
   using: 'composite'
 
@@ -20,6 +24,7 @@ runs:
         echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
     - name: Restore yarn cache
       uses: actions/cache@v4
+      if: inputs.disable-dependency-cache == 'yes'
       with:
         save-always: true
         path: |
