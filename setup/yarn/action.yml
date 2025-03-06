@@ -4,6 +4,9 @@ inputs:
   npm-token:
     required: true
     description: The npm token used to grant registry access. Pass a token with publish permissions if needed.
+  additional-hash-files:
+    required: false
+    description: 'Optional: Additional files to include in the cache key, space-separated (e.g., "file1 file2").'
 runs:
   using: 'composite'
   steps:
@@ -12,9 +15,37 @@ runs:
       # but it only restores the cache when the lockfile is identical (so a no-no for our purposes)
       with:
         node-version-file: .nvmrc
+
     - name: Grant access to private registry
       shell: bash
       run: echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
+    
+    - name: Compute Cache Key
+      id: compute-cache-key
+      shell: bash
+      run: |
+        FILES="yarn.lock src/yarn.lock"
+
+        # Append additional files if provided
+        if [[ -n "${{ inputs.additional-hash-files }}" ]]; then
+          FILES="$FILES ${{ inputs.additional-hash-files }}"
+        fi
+
+        # Filter out non-existent files to prevent errors
+        EXISTING_FILES=""
+        for file in $FILES; do
+          [[ -f "$file" ]] && EXISTING_FILES="$EXISTING_FILES $file"
+        done
+
+        # Compute hash only if there are valid files, otherwise use a dynamic fallback hash
+        if [[ -n "$EXISTING_FILES" ]]; then
+          HASH=$(sha256sum $EXISTING_FILES | sha256sum | cut -d ' ' -f1)
+        else
+          HASH=$(date +%s | sha256sum | cut -d ' ' -f1)  # Dynamic fallback hash
+        fi
+
+        echo "CACHE_KEY=${{ runner.os }}-yarn-${HASH}" >> $GITHUB_ENV
+
     - name: Restore node_modules
       uses: actions/cache@v4
       with:
@@ -22,7 +53,7 @@ runs:
         path: |
           node_modules
           src/node_modules
-        key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock', 'src/yarn.lock') }}
+        key: ${{ env.CACHE_KEY }}
         # we faced issues with restoring on partial matches because yarn classic doesn't cleanup properly on install, don't uncomment
         # restore-keys: ${{ runner.os }}-yarn-
 author: 'ExodusMovement'
