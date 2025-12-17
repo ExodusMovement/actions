@@ -7,7 +7,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f #v6.1.0
       # this action has an option to restore cached dependencies,
       # but it only restores the cache when the lockfile is identical (so a no-no for our purposes)
       with:
@@ -16,7 +16,7 @@ runs:
       shell: bash
       run: echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
     - name: Restore node_modules
-      uses: actions/cache@v4
+      uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb #v5.0.1
       with:
         save-always: true
         path: |
