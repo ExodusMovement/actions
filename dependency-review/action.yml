@@ -1,10 +1,21 @@
 name: 'Dependency Review'
 description: 'Check dependencies for vulnerabilities and licenses'
+
+inputs:
+  comment-summary-in-pr:
+    description: 'When to post PR comment: always, on-failure, never'
+    required: false
+    default: 'always'
+  fail-on-scopes:
+    description: 'Dependency scopes to fail on: runtime, development, unknown'
+    required: false
+    default: 'runtime'
+
 runs:
   using: 'composite'
   steps:
     - name: 'Checkout Repository'
-      uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # v4.0.0
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       with:
         fetch-depth: 2
     - name: Get HEAD~1 sha
@@ -12,11 +23,17 @@ runs:
       shell: bash
       run: echo "sha=$(git rev-parse HEAD~1)" >> "$GITHUB_OUTPUT"
     - name: 'Dependency Review'
-      uses: actions/dependency-review-action@da24556b548a50705dd671f47852072ea4c105d9 # v4.7.1
+      uses: actions/dependency-review-action@3c4e3dcb1aa7874d2c16be7d79418e9b7efd6261 # v4.8.2
       with:
+        license-check: true
+        vulnerability-check: true
+        show-openssf-scorecard: true
+        warn-on-openssf-scorecard-level: 3
+        retry-on-snapshot-warnings: true
+        retry-on-snapshot-warnings-timeout: 120
         fail-on-severity: high
-        comment-summary-in-pr: on-failure
+        fail-on-scopes: ${{ inputs.fail-on-scopes }}
+        comment-summary-in-pr: ${{ inputs.comment-summary-in-pr }}
         allow-licenses: MIT,Apache-2.0,MPL-2.0,ISC,BSD-2-Clause,BSD-3-Clause,Unlicense,CC0-1.0,CC-BY-3.0,CC-BY-4.0,WTFPL,0BSD,AFL-2.1
-        # these are only used for event types other than pull_request and pull_request_target.
         base-ref: ${{ steps.rev-parse.outputs.sha }}
         head-ref: ${{ github.sha }}
