@@ -35,5 +35,6 @@ runs:
         fail-on-scopes: ${{ inputs.fail-on-scopes }}
         comment-summary-in-pr: ${{ inputs.comment-summary-in-pr }}
         allow-licenses: MIT,Apache-2.0,MPL-2.0,ISC,BSD-2-Clause,BSD-3-Clause,Unlicense,CC0-1.0,CC-BY-3.0,CC-BY-4.0,WTFPL,0BSD,AFL-2.1
+        allow-dependencies-licenses: pkg:githubactions/ExodusMovement/actions/dependency-review
         base-ref: ${{ steps.rev-parse.outputs.sha }}
         head-ref: ${{ github.sha }}
