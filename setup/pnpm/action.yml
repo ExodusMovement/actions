@@ -17,9 +17,11 @@ runs:
         node-version-file: .nvmrc
         registry-url: 'https://registry.npmjs.org'
         cache: 'pnpm'
-    - name: Allow read access to private registry
+    - name: Configure private registry auth
       shell: bash
-      run: echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
+      run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> $NPM_CONFIG_USERCONFIG
 author: 'ExodusMovement'
 branding:
   icon: 'activity'
