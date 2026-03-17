@@ -25,11 +25,9 @@ runs:
         node-version-file: .nvmrc
         registry-url: 'https://registry.npmjs.org'
         cache: 'pnpm'
-    - name: Configure private registry auth
+    - name: Export NODE_AUTH_TOKEN
       shell: bash
-      env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
-      run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> $NPM_CONFIG_USERCONFIG
+      run: echo "NODE_AUTH_TOKEN=${{ inputs.npm-token }}" >> $GITHUB_ENV
     - name: Restore nx cache
       if: inputs.disable-nx-cache == 'no'
       uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb #v5.0.1

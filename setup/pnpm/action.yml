@@ -17,11 +17,9 @@ runs:
         node-version-file: .nvmrc
         registry-url: 'https://registry.npmjs.org'
         cache: 'pnpm'
-    - name: Configure private registry auth
+    - name: Export NODE_AUTH_TOKEN
       shell: bash
-      env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
-      run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> $NPM_CONFIG_USERCONFIG
+      run: echo "NODE_AUTH_TOKEN=${{ inputs.npm-token }}" >> $GITHUB_ENV
 author: 'ExodusMovement'
 branding:
   icon: 'activity'
