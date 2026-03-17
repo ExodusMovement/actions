@@ -15,9 +15,19 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: ExodusMovement/actions/setup/pnpm@HEAD
+    - name: Install pnpm
+      uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda #v4.1.0
       with:
-        npm-token: ${{ inputs.npm-token }}
+        run_install: false
+    - name: Setup Node.js
+      uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f #v6.1.0
+      with:
+        node-version-file: .nvmrc
+        registry-url: 'https://registry.npmjs.org'
+        cache: 'pnpm'
+    - name: Allow read access to private registry
+      shell: bash
+      run: echo "//registry.npmjs.org/:_authToken=${{ inputs.npm-token }}" > ~/.npmrc
     - name: Restore nx cache
       if: inputs.disable-nx-cache == 'no'
       uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb #v5.0.1
