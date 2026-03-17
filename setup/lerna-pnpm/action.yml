@@ -1,0 +1,34 @@
+name: 'Setup lerna (pnpm)'
+description: |
+  Composite action to setup node, pnpm & nx caching, and private registry access in lerna monorepos using pnpm.
+  The nx cache directory is by default assumed under .cache/nx.
+inputs:
+  nx-cache-path:
+    description: Path to the nx cache directory
+    default: .cache/nx
+  disable-nx-cache:
+    description: Disables nx-cache when set to 'yes'
+    default: no
+  npm-token:
+    required: true
+    description: The npm token used to grant registry access. Pass a token with publish permissions if needed.
+runs:
+  using: 'composite'
+  steps:
+    - uses: ExodusMovement/actions/setup/pnpm@HEAD
+      with:
+        npm-token: ${{ inputs.npm-token }}
+    - name: Restore nx cache
+      if: inputs.disable-nx-cache == 'no'
+      uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb #v5.0.1
+      with:
+        save-always: true
+        path: ${{ inputs.nx-cache-path }}
+        key: nx-operations-cache-${{github.job}}-${{github.sha}}
+        restore-keys: |
+          nx-operations-cache-${{github.job}}-
+
+author: 'ExodusMovement'
+branding:
+  icon: 'activity'
+  color: 'gray-dark'
